@@ -1,45 +1,66 @@
 import { useState, useEffect } from "react"
-import Formulario from "./components/Formulario"
+import Form from "./components/Form"
 import Header from "./components/Header"
-import ListadoPacientes from "./components/ListadoPacientes"
+import ListUsers from "./components/ListUsers"
+import createNewUser from "./services/createNewUser"
+import getAllUsers from "./services/getAllUsers"
+import deleteUser from "./services/deleteUser"
+
+
 
 function App() {
 
-  const [pacientes, setPacientes] = useState([]);
-  const[paciente, setPaciente] = useState({});
-
-  
-  useEffect(() =>{
-    const obtenerLS = () => {
-      const pacientesLS = JSON.parse(localStorage.getItem('pacientes')) ?? [];
-      setPacientes(pacientesLS)
-    }
-    obtenerLS();
-  }, [])
+  const [users, setUsers] = useState([]);
+  const[user, setUser] = useState({});
+  const [deleteId, setDeleteId] = useState('')
 
   useEffect(() => {
-    localStorage.setItem('pacientes', JSON.stringify(pacientes));
-  },[pacientes])
-  const eliminarPaciente = id => {
-    const pacientesActualizados = pacientes.filter( paciente => paciente.id !== id)
-    setPacientes(pacientesActualizados);
-  }
+    getAllUsers()
+      .then(response => {
+        console.log(response.data)
+        setUsers(response.data)
+      })
+  },[])
+
+  useEffect(() => {
+    if(user.first_name){
+      createNewUser(user)
+        .then((res) => {
+          console.log(res.data)
+          setUsers([...users, res.data])
+          setUser({})
+        })
+    } else {
+      console.log('no hay valores para hacer un post')
+    }
+  }, [user, users])
+
+  useEffect(() => {
+    if(deleteId){
+      deleteUser(deleteId)
+        .then((response) => {
+          console.log(response)
+        })
+    } 
+  }, [deleteId])
+
+
 
   return (
     <div className="container mx-auto mt-20">
       <Header/>
 
       <div className="mt-12 md:flex">
-        <Formulario
-          pacientes = {pacientes}
-          setPacientes={setPacientes}
-          paciente = {paciente}
-          setPaciente = {setPaciente}
+        <Form
+          users = {users}
+          setUsers={setUsers}
+          user = {user}
+          setUser = {setUser}
         />
-        <ListadoPacientes
-          pacientes = {pacientes}
-          setPaciente={setPaciente}
-          eliminarPaciente = {eliminarPaciente}
+        <ListUsers
+          users = {users}
+          setUser={setUser}
+          deleteUser = {deleteUser}
         />
       </div>
     </div>

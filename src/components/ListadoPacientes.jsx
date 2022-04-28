@@ -6,10 +6,10 @@ const ListadoPacientes = ({pacientes, setPaciente, eliminarPaciente}) => {
 
         {pacientes && pacientes.length  ? (
           <>
-            <h2 className="font-black text-center text-3xl ">Listado Pacientes</h2>
+            <h2 className="font-black text-center text-3xl ">List of friends 😀</h2>
             <p className="text-xl mt-5 mb-10 text-center">
-              Administra tus {' '}
-              <span className="text-indigo-600 font-bold">Pacientes y Citas </span>
+              See all  {' '}
+              <span className="text-indigo-600 font-bold">your friends </span>
             </p>
     
             {pacientes.map(paciente => (
@@ -24,10 +24,10 @@ const ListadoPacientes = ({pacientes, setPaciente, eliminarPaciente}) => {
 
         ) : (
           <>
-            <h2 className="font-black text-center text-3xl ">No hay pacientes</h2>
+            <h2 className="font-black text-center text-3xl ">No friends yet 😔</h2>
               <p className="text-xl mt-5 mb-10 text-center">
-                Comienza agregando pacientes {' '}
-                <span className="text-indigo-600 font-bold">y aparecerán en este lugar </span>
+              Start adding friends {' '}
+                <span className="text-indigo-600 font-bold">and they will appear in this place</span>
               </p>
           </>
         )}
